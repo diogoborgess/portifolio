@@ -79,7 +79,6 @@ app.delete("/repositories/:id", (request, response) => {
 
 app.post("/repositories/:id/like", (request, response) => {
   const {id} = request.params;
-  //const {likes} = request.body;
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
   if (repositoryIndex < 0) {
@@ -88,20 +87,10 @@ app.post("/repositories/:id/like", (request, response) => {
     });
   }
 
-  let currentRepo = repositories[repositoryIndex];
-  const repository = {
-    id: currentRepo.id, 
-    title: currentRepo.title, 
-    url: currentRepo.url, 
-    techs: currentRepo.techs, 
-    likes: currentRepo.likes + 1
-  };
+  repositories[repositoryIndex].likes++;
 
-  currentRepo = repository;
-  
-  repositories.splice(repositoryIndex, 1);
-  repositories.push(currentRepo)
-  return response.json(currentRepo);
+  repository = repositories[repositoryIndex];
+  return response.json(repository);
 });
 
 module.exports = app;
